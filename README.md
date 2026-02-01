@@ -64,6 +64,22 @@ The ERD represents the logical structure of the Dunnhumby dataset at the base-ta
 
   ![Output:](image/product_level_margin.png)
 
+## Product Mix Segmentation
+
+This will help us identify prodcuts drivinng the most profitable growth and the ones  dragging the overall performance
+
+- Products with high revenue, high margin - stars
+- Products with high revenue, low margin - cash cow
+- Products with low revenue, high margin - need investigation
+- Products with low revenue, low margin - dogs
+
+```
+
+```
+ [see full query](advanced_retail_analytics_modeling.SQL)
+
+  ![Output:](image/product_level_margin.png)
+
   
 
 
