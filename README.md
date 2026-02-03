@@ -4,7 +4,8 @@
 This project focuses on building production-ready data layer for advanced retail profitability, product mix, cohort analysis and product segmentation using PostgreSQL hosted on Supabase.
 
 Supabase is used as the managed PostgreSQL cloud backend, enabling secure remote access, scalable storage, and seamless integration with external analytics platforms such as Looker Studio and Power BI.
->The goal of this project is to create an optimized analytical SQL layer that can easily be consumed by downstream BI tools
+>The goal of this project is to create an optimized analytical SQL layer that can easily be consumed by downstream BI tools. [Click here to see]()
+
 
 ## Dataset
 Source: https://www.dunnhumby.com/source-files
@@ -74,11 +75,91 @@ This will help us identify prodcuts drivinng the most profitable growth and the 
 - Products with low revenue, low margin - dogs
 
 ```
+        CREATE OR REPLACE VIEW dunnhumby.product_seg_view AS 
+        WITH seg_percentile AS
+        (
+          SELECT 
+            PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY raw_margin_pct) AS p_rm_50,
+            PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY total_revenue) AS p_tr_50
+            
+          FROM dunnhumby.product_margin_view
+        )
+        
+        SELECT 
+        *,
+        CASE 
+        WHEN raw_margin_pct >= p_rm_50 AND total_revenue >= p_tr_50
+        THEN 'Stars' ...
 
+        -- Click the link below to see full query
 ```
  [see full query](advanced_retail_analytics_modeling.SQL)
 
-  ![Output:](image/product_level_margin.png)
+  ![Output:](image/product_level_margin_mix_seg.png)
+
+## Cost to Serve and discount impact
+- This view help to see the cost to serve ech household and the impact of the discount on revenue
+- It also show the net margin for each household
+  
+>deeper analysis will be revealed in BI analysis. [Click here to see]()
+
+
+```
+      -- cost to serve
+      CREATE OR REPLACE VIEW dunnhumby.cost_to_serve_view AS 
+      SELECT 
+      household_key,
+      COUNT(DISTINCT "BASKET_ID") * 0.1 AS transaction_cost,
+      SUM("QUANTITY") * 0.07 AS fulfiLlment_cost
+      FROM dunnhumby.transaction_view 
+      GROUP BY household_key;
+      
+      -- Net margin
+      CREATE OR REPLACE VIEW dunnhumby.net_margin_view AS  
+      SELECT 
+      t.household_key,
+      SUM(t."SALES_VALUE") AS total_sales,
+      SUM(t."SALES_VALUE") - ABS(SUM(t."RETAIL_DISC" + t."COUPON_DISC" + t."COUPON_MATCH_DISC" )) - (COALESCE(c.transaction_cost,0) + COALESCE(c.fulfillment_cost,0)) AS net_margin,...
+
+      -- click the link below to see full query
+```
+
+[see full query](advanced_retail_analytics_modeling.SQL)
+
+
+![Output:](image/cost_to_serve.png)
+
+
+## Cohort /retention Analysis
+
+- CTE and window function was employed to calculate the acquisition period of each household, 
+- The cohort size and decay rate accross the retention periods
+- Revenue contribution of each cohort along the line
+
+  >deeper analysis will be revealed in BI analysis. [Click here to see]()
+
+
+```
+      -- COHORT
+      CREATE OR REPLACE VIEW dunnhumby.cohort_view AS
+      WITH cohort_count AS 
+      (SELECT
+      DATE_TRUNC('month', f.first_purchase_date) AS cohort_month,
+      TO_CHAR(DATE_TRUNC('month', f.first_purchase_date), 'month-YYYY') AS c_MY,
+      DATE_TRUNC('month', t.transaction_date) AS activity_month,
+      TO_CHAR(DATE_TRUNC('month', t.transaction_date), 'month-YYYY') AS a_MY,
+      COUNT(DISTINCT t.household_key) AS active_members,
+      SUM("SALES_VALUE") AS total_sales...
+
+      --click the link below to see full query
+
+
+```
+
+[see full query](advanced_retail_analytics_modeling.SQL)
+
+
+![Output:](image/cohort_analysis.png)
 
   
 
