@@ -174,7 +174,7 @@ For cloud(Supabas)
 
 ## Performance Optimization & Indexing
 
-I created indexes to for improved performance 
+I created indexes for improved performance 
 
 
 ```
