@@ -192,7 +192,7 @@ I created indexes for improved performance
       ON dunnhumby.transaction_data(household_key, "DAY")
 
 ```
-
+[see indexs](complete_journey_indexes.sql)
 
 ## Tech Stack I explored in this project
 
