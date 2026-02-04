@@ -213,3 +213,9 @@ I created indexes for improved performance
 ***Indexing strategies***
 
 ***Analytical views***
+
+
+👤 Akorede Lukman Olamide
+
+>Data Analyst, Data Science & Machine Learning Enthusiast
+
