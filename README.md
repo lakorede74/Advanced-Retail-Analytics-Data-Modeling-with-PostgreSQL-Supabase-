@@ -61,7 +61,7 @@ The ERD represents the logical structure of the Dunnhumby's The Complete Journey
           ;
   
   ```
-  [see full query](advanced_retail_analytics_modeling.SQL)
+  [see full query](advanced_retail_analytics_modeling.sql)
 
   ![Output:](image/product_level_margin.png)
 
@@ -93,7 +93,7 @@ This will help us identify prodcuts driving the most profitable growth and the o
 
         -- Click the link below to see full query
 ```
- [see full query](advanced_retail_analytics_modeling.SQL)
+ [see full query](advanced_retail_analytics_modeling.sql)
 
   ![Output:](image/product_level_margin_mix_seg.png)
 
@@ -124,7 +124,7 @@ This will help us identify prodcuts driving the most profitable growth and the o
       -- click the link below to see full query
 ```
 
-[see full query](advanced_retail_analytics_modeling.SQL)
+[see full query](advanced_retail_analytics_modeling.sql)
 
 
 ![Output:](image/cost_to_serve.png)
@@ -157,7 +157,7 @@ This will help us identify prodcuts driving the most profitable growth and the o
 
 ```
 
-[see full query](advanced_retail_analytics_modeling.SQL)
+[see full query](advanced_retail_analytics_modeling.sql)
 
 
 ![Output:](image/cohort_analysis.png)
