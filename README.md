@@ -32,7 +32,7 @@ The database structure is designed to handle larger datasets and evolving analyt
 
 ![ERD](image/DunnhumbyERD2.svg)
 
-The ERD represents the logical structure of the Dunnhumby dataset at the base-table level. Analytical complexity is handled through PostgreSQL views rather than physical star-schema modeling, ensuring metric consistency and avoiding double aggregation in BI tools.
+The ERD represents the logical structure of the Dunnhumby's The Complete Journey dataset at the base-table level. Analytical complexity is handled through PostgreSQL views rather than physical star-schema modeling, ensuring metric consistency and avoiding double aggregation in BI tools.
 
 ## Analytical Viewsand KPIs Layers
 
@@ -134,6 +134,7 @@ This will help us identify prodcuts drivinng the most profitable growth and the 
 
 - CTE and window function was employed to calculate the acquisition period of each household, 
 - The cohort size and decay rate accross the retention periods
+- Spending behaviour of older cohort to the new cohort
 - Revenue contribution of each cohort along the line
 
   >deeper analysis will be revealed in BI analysis. [Click here to see]()
@@ -151,7 +152,7 @@ This will help us identify prodcuts drivinng the most profitable growth and the 
       COUNT(DISTINCT t.household_key) AS active_members,
       SUM("SALES_VALUE") AS total_sales...
 
-      --click the link below to see full query
+      --click the link below to see the full query
 
 
 ```
@@ -161,6 +162,52 @@ This will help us identify prodcuts drivinng the most profitable growth and the 
 
 ![Output:](image/cohort_analysis.png)
 
-  
+## How to reproduce
+
+### Use PostgreSQL(Supabase) or local PostgreSQL
+
+For cloud(Supabas)
+- Sign up for a free supabase account
+- for Import dunnhumby's the ccomplete journey dataset (transaction_data.csv, hh_demographic.csv, product.csv) using the Supabase Graphics Interface of other method
+  >Note: split large tables such as transaction_data and the hh_demograpics tables and upload them in batches
+- Run the [advanced_retail_analytics_modeling.SQL](advanced_retail_analytics_modeling.SQL)
+
+## Performance Optimization & Indexing
+
+I created indexes to for improved performance 
 
 
+```
+
+CREATE index idx_house_key
+ON dunnhumby.transaction_data(household_key)
+
+CREATE index idx_sales_value
+ON dunnhumby.transaction_data("SALES_VALUE")
+
+create index idx_trans_DAY
+ON dunnhumby.transaction_data("DAY")
+
+create index idx_housekey_day
+ON dunnhumby.transaction_data(household_key, "DAY")
+
+```
+
+
+## Tech Stack I explored in this project
+
+***Database: PostgreSQL***
+
+***Cloud Platform: Supabase (managed PostgreSQL)***
+
+***SQL Features:***
+
+***CTEs***
+
+***Window functions***
+
+***Aggregations***
+
+***Indexing strategies***
+
+***Analytical views***
