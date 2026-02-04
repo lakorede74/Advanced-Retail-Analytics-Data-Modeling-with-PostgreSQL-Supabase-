@@ -1,5 +1,5 @@
 
--- having a glimps of our datasets
+-- having a glance of our dataset
 select * from dunnhumby.transaction_data
 limit 1000;
 
